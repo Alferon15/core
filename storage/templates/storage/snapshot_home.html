@@ -1,0 +1,21 @@
+{% extends 'base_app/main.html' %}
+
+{% block title%}
+    Снимки склада
+{% endblock title %}
+
+{% block header %}
+    <div class="text-center text-white">
+        <h1 class="display-4 fw-bolder">Снимок</h1>
+        <p class="lead fw-normal text-white-50 mb-0">Список</p>
+    </div>
+{% endblock header %}
+
+{% block body %}
+    <h2>Даты</h2>
+    <ul>
+        {% for snapshot in object_list %}
+            <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:snapshot_detail' snapshot.pk %}">{{ snapshot }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock body %}

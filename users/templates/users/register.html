@@ -1,0 +1,20 @@
+{% extends 'base_app/main.html' %}
+
+{% block title%}
+    Вход
+{% endblock title %}
+
+{% block header %}
+    <div class="text-center text-white">
+        <h1 class="display-4 fw-bolder">Регистрация</h1>
+    </div>
+{% endblock header %}
+
+{% block body %}
+    <h2>Регистрация</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+{% endblock body %}

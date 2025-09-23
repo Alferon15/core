@@ -1,0 +1,21 @@
+{% extends 'base_app/main.html' %}
+
+{% block title%}
+    Вход
+{% endblock title %}
+
+{% block header %}
+    <div class="text-center text-white">
+        <h1 class="display-4 fw-bolder">Логин</h1>
+    </div>
+{% endblock header %}
+
+{% block body %}
+    <h2>Вход</h2>
+    <form method="post">
+        <input type='hidden' name='next' value='{{ next }}'/>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Войти</button>
+    </form>
+{% endblock body %}

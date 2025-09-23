@@ -1,0 +1,36 @@
+{% extends 'base_app/main.html' %}
+
+{% block title%}
+    Снимки склада
+{% endblock title %}
+
+{% block header %}
+    <div class="text-center text-white">
+        <h1 class="display-4 fw-bolder">Снимок</h1>
+        <p class="lead fw-normal text-white-50 mb-0">Список</p>
+    </div>
+{% endblock header %}
+
+{% block body %}
+    <h2>Дата: {{ snapshot }}</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Картридж</th>
+                <th scope="col">Количество</th>
+            </tr>
+        </thead>
+        <tbody>
+                {% for item in snapshot.items.all %}
+                    <tr>
+                        <th scope="row">{{ item.id }}</th>
+                        <td>{{ item.cartridge.article }}</td>
+                        <td>{{ item.count }}</td>
+                    </tr>
+                {% endfor %}
+    </table>
+    <ul>
+       
+    </ul>
+{% endblock body %}
