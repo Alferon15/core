@@ -4,7 +4,7 @@ from storage.models import Cartridge, Snapshot, Item
 
 @admin.register(Cartridge)
 class CartridgeAdmin(admin.ModelAdmin):
-    list_display = ['number', 'article']
+    list_display = ['number', 'article', 'caption']
     list_display_links = ['number']
 
 

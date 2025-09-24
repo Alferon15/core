@@ -4,12 +4,12 @@ from django.urls import reverse
 
 class Cartridge(models.Model):
     number = models.CharField(verbose_name='Номенклатура', primary_key=True, unique=True)
-    article = models.CharField(verbose_name='Артикул', unique=True)
+    article = models.CharField(verbose_name='Артикул')
     caption = models.TextField(verbose_name='Описание', blank=True, default='')
     
     
     def __str__(self):
-        return self.article
+        return self.number
 
 
     def get_absolute_url(self):

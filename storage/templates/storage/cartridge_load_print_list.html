@@ -1,0 +1,21 @@
+{% extends 'base_app/main.html' %}
+
+{% block title%}
+    Снимки склада
+{% endblock title %}
+
+{% block header %}
+    <div class="text-center text-white">
+        <h1 class="display-4 fw-bolder">Загрузить файл</h1>
+        <p class="lead fw-normal text-white-50 mb-0">Загрузить файл</p>
+    </div>
+{% endblock header %}
+
+{% block body %}
+    <h2>Файл</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Загрузить</button>
+    </form>
+{% endblock body %}
