@@ -12,27 +12,42 @@
 {% endblock header %}
 
 {% block body %}
-    <h2>Картриджи</h2>
-    
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Номенклатурный номер (из программы 1С)</th>
-                <th scope="col">Количество</th>
-                <th scope="col">Артикул</th>
-                <th scope="col">Наименование</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for key, value in print_list.items %}
-                <tr>
-                    <td><a class="nav-link active" aria-current="page" href="{% url 'storage:index' %}">{{ key }}</a></td>
-                    <td>{{ value.1 }}</td>
-                    <td>{{ value.2 }}</td>
-                    <td>{{ value.3 }}</td>
-                </tr>
+    <div class="row">
+        {% for key, value in print_list.items %}
+            {% for i in value.2 %}
+                <div class="col-4">
+                    <div class="row text-center">
+                        <div class="col-12">
+                            <img class="img-fluid" id="barcode{{ key }}">
+                        </div>
+                        <div class="col-12">
+                            {{ key }}
+                        </div>
+                        <div class="col-12">
+                            {{ value.1 }}
+                        </div>
+                        <div class="col-12">
+                            {{ value.3 }}
+                            <script defer>
+                                JsBarcode("#barcode{{ key }}", "{{ key }}", {
+                                    width:1.3,
+                                    height:40,
+                                    displayValue: false,
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </div>
             {% endfor %}
-        </tbody>
-    </table>
-
+        {% endfor %}
+    </div>
+    <hr>
+    <hr>
+    <hr>
+    {% for key, value in error_list.items %}
+        {{ key }}
+        {{ value.1 }}
+        {{ value.2 }}
+        {{ value.3 }}
+    {% endfor %}
 {% endblock body %}

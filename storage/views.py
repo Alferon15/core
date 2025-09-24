@@ -17,7 +17,6 @@ class CartridgeRefreshView(View):
                 s = c.split(';')
                 cart = cartridges_db.filter(number=s[0]).exists()
                 if not cart:
-                    print(s[0])
                     cart = Cartridge(number=s[0], article=s[1], caption=s[2])
                     cart.save()
         return redirect('storage:cartridge_list')
@@ -46,11 +45,30 @@ class CartridgeBarcodeListView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         print_list = {}
-        s = open('storage/utils/print_list.csv').read()
+        error_list = {}
+        s = open('storage/utils/print_list.csv', encoding='utf-8').read()
         temp_list = s.split('\n')
-        for i in temp_list:
-            a = i.split(';')
-            print_list[a[0]] = a
+        title_list = temp_list.pop(0)
+        for idx, i in enumerate(temp_list):
+            if idx != 0:
+                if i != '':
+                    a = i.split(';')
+                    a[0] = a[0].zfill(11)
+                    if a[2] == '':
+                        a[2] = 0
+                    else:
+                        try:
+                            a[2] = int(a[2])
+                        except ValueError:
+                            print(f"{a[0]} - {a[2]} - не число!")
+                            error_list[a[0]] = a
+                            a[2] = 0
+                    if a[2] > 0:
+                        a[2] = range(0, a[2])
+                        print(a[2])
+                        print_list[a[0]] = a
+        context['title_list'] = title_list
+        context['error_list'] = error_list
         context['print_list'] = print_list
         return context
 
