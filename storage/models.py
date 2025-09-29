@@ -6,6 +6,10 @@ class Cartridge(models.Model):
     number = models.CharField(verbose_name='Номенклатура', primary_key=True, unique=True)
     article = models.CharField(verbose_name='Артикул')
     caption = models.TextField(verbose_name='Описание', blank=True, default='')
+    priority = models.IntegerField(verbose_name='Приоритет', default=0)
+    
+    class Meta:
+        ordering = ["-priority"]
     
     
     def __str__(self):
@@ -17,7 +21,7 @@ class Cartridge(models.Model):
 
 
 class Snapshot(models.Model):
-    dt = models.DateField(verbose_name='Дата инвентаризации', unique=True, auto_created=True)
+    dt = models.DateField(verbose_name='Дата инвентаризации', auto_created=True)
 
 
     def __str__(self):

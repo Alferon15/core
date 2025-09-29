@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from .models import Cartridge, Snapshot
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import Cartridge, Snapshot, Item
 from .forms import SnapshotAddForm, CartidgeLoadPrintListForm
 from django.views.generic import TemplateView, CreateView, ListView, DetailView, View, FormView
 
+from datetime import date
+from .utils.utils import do_count
 
-class CartridgeRefreshView(View):
+class CartridgeRefreshView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         cart_file = open('storage/utils/list.csv')
         cart_str = cart_file.read()
@@ -27,7 +30,7 @@ class CartridgeListView(ListView):
     queryset = Cartridge.objects.all()
 
 
-class CartridgePrintListView(TemplateView):
+class CartridgePrintListView(LoginRequiredMixin, TemplateView):
     template_name = 'storage/cartridge_print_list.html'
 
     def get_context_data(self, **kwargs):
@@ -52,11 +55,11 @@ class CartridgePrintListView(TemplateView):
         return redirect('storage:print_barcode')
 
 
-class CartridgePrintBarcodeView(TemplateView):
+class CartridgePrintBarcodeView(LoginRequiredMixin, TemplateView):
     template_name = 'storage/cartridge_print_barcode.html'
 
 
-class CartridgeLoadPrintListView(FormView):
+class CartridgeLoadPrintListView(LoginRequiredMixin, FormView):
     form_class = CartidgeLoadPrintListForm
     template_name = 'storage/cartridge_load_print_list.html'
     
@@ -68,7 +71,7 @@ class CartridgeLoadPrintListView(FormView):
         return redirect('storage:barcode_list')
 
 
-class CartridgeBarcodeListView(TemplateView):
+class CartridgeBarcodeListView(LoginRequiredMixin, TemplateView):
     template_name = 'storage/cartridge_barcode_list.html'
 
     def get_context_data(self, **kwargs):
@@ -100,6 +103,7 @@ class CartridgeBarcodeListView(TemplateView):
         context['print_list'] = print_list
         return context
 
+
 class StorageHomeView(TemplateView):
     template_name = 'storage/storage_home.html'
 
@@ -110,9 +114,30 @@ class SnapshotHomeView(ListView):
     template_name = 'storage/snapshot_home.html'
 
 
-class SnapshotAddView(CreateView):
+class SnapshotAddView(LoginRequiredMixin, CreateView):
     form_class = SnapshotAddForm
     template_name = 'storage/snapshot_add.html'
+
+    def post(self, request, *args, **kwargs):
+        temp_list = request.POST.copy()
+        temp_list.pop('csrfmiddlewaretoken')
+        snap = Snapshot()
+        snap.dt = date(int(temp_list['dt_year']), int(temp_list['dt_month']), int(temp_list['dt_day']))
+        snap.save()
+        items = temp_list['item_list'].split('\r\n')
+        c_list = do_count(items)
+        all_cartridges = Cartridge.objects.all()
+        for i in c_list.values():
+            c = all_cartridges.get(number=i['number'])
+            if c:
+                cur_item = Item()
+                cur_item.cartridge = c
+                cur_item.count = i['count']
+                cur_item.snapshot = snap
+                cur_item.save()
+            else:
+                print('Нет ' + i)
+        return redirect('storage:snapshot_detail', snap.id)
 
 
 class SnapshotDetailView(DetailView):
