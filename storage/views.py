@@ -27,6 +27,35 @@ class CartridgeListView(ListView):
     queryset = Cartridge.objects.all()
 
 
+class CartridgePrintListView(TemplateView):
+    template_name = 'storage/cartridge_print_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cartridges = Cartridge.objects.all()
+        context["cartridges"] = cartridges
+        return context
+    
+    def post(self, request, *args, **kwargs):
+        cartridges = Cartridge.objects.all()
+        count = request.POST.copy()
+        count.pop('csrfmiddlewaretoken')
+        data = {}
+        for k, v in count.items():
+            if v != '':
+                v = int(v)
+                if v > 0:
+                    article = cartridges.get(number=k).article
+                    caption = cartridges.get(number=k).caption
+                    data[k] = {'number':k, 'count':'c'*v, 'article':article, 'caption':caption}
+        request.session['data'] = data
+        return redirect('storage:print_barcode')
+
+
+class CartridgePrintBarcodeView(TemplateView):
+    template_name = 'storage/cartridge_print_barcode.html'
+
+
 class CartridgeLoadPrintListView(FormView):
     form_class = CartidgeLoadPrintListForm
     template_name = 'storage/cartridge_load_print_list.html'
@@ -65,7 +94,6 @@ class CartridgeBarcodeListView(TemplateView):
                             a[2] = 0
                     if a[2] > 0:
                         a[2] = range(0, a[2])
-                        print(a[2])
                         print_list[a[0]] = a
         context['title_list'] = title_list
         context['error_list'] = error_list

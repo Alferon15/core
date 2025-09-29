@@ -1,0 +1,39 @@
+{% extends 'base_app/main.html' %}
+
+{% block title%}
+    Список для печати
+{% endblock title %}
+
+{% block header %}
+    <div class="text-center text-white">
+        <h1 class="display-4 fw-bolder">Загрузить файл</h1>
+        <p class="lead fw-normal text-white-50 mb-0">Загрузить файл</p>
+    </div>
+{% endblock header %}
+
+{% block body %}
+    <form method="post" target="_blank">
+        {% csrf_token %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Номенклатурный номер (из программы 1С)</th>
+                    <th scope="col">Артикул (при наличии)</th>
+                    <th scope="col">Количество</th>
+                    <th scope="col">Наименование</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in cartridges %}
+                    <tr>
+                        <td>{{ c.number }}</td>
+                        <td>{{ c.article }}</td>
+                        <td><input id="{{ c.number }}" type="number" name="{{ c.number }}"></td>
+                        <td>{{ c.caption }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit">Напечатать штрихкоды</button>
+    </form>
+{% endblock body %}
