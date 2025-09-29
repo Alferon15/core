@@ -1,5 +1,5 @@
 from django import forms
-from .models import Snapshot, Cartridge
+from .models import Snapshot, Cartridge, Item
 
 from .utils.utils import do_count
 
@@ -14,12 +14,18 @@ class SnapshotAddForm(forms.ModelForm):
 
     def clean_item_list(self):
         item_list = self.cleaned_data['item_list']
-        items = item_list.split('\n')
+        items = item_list.split('\r\n')
         temp_list = do_count(items)
         all_cartridges = Cartridge.objects.all()
-        for i in temp_list:
-            if all_cartridges.filter(number=i).exists():
-                print('Есть ' + i)
+        print(temp_list)
+        for i, v in temp_list:
+            c = all_cartridges.get(number=i)
+            print(i, v)
+            if c:
+                cur_item = Item()
+                cur_item.cartridge = c
+                cur_item.count = i[i]
+                cur_item.snapshot = self.instance
             else:
                 print('Нет ' + i)
         return item_list

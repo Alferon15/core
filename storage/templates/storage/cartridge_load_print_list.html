@@ -1,5 +1,7 @@
 {% extends 'base_app/main.html' %}
 
+{% load static %}
+
 {% block title%}
     Снимки склада
 {% endblock title %}
@@ -12,10 +14,12 @@
 {% endblock header %}
 
 {% block body %}
-    <h2>Файл</h2>
-    <form method="post" enctype="multipart/form-data">
+    <h2>Шаблон</h2>
+    <a href="{% static 'storage\print_list_blank.csv' %}">Скачать шаблон</a>
+    <h2>Файл для печати</h2>
+    <form method="post" enctype="multipart/form-data" target="_blank">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Сформировать</button>
+        <button type="submit">Напечатать штрихкоды</button>
     </form>
 {% endblock body %}

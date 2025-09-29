@@ -1,11 +1,10 @@
 def do_count(dbstr):
     res_list = {}
-    temp_dict = dbstr.split("\n")
-    temp_dict.sort()
-    for s in temp_dict:
+    dbstr.sort()
+    for s in dbstr:
         if s !='':
-            if res_list.get(s):
-                res_list[s] += 1
+            if res_list[s]:
+                res_list[s].count += 1
             else:
-                res_list[s] = 1
+                res_list[s].count = 1
     return res_list
