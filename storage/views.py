@@ -8,6 +8,7 @@ from django.views.generic import TemplateView, CreateView, ListView, DetailView,
 from datetime import date
 from .utils.utils import do_count
 
+
 class CartridgeRefreshView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         cart_file = open('storage/utils/list.csv')
@@ -55,6 +56,15 @@ class CartridgePrintListView(LoginRequiredMixin, TemplateView):
         return redirect('storage:print_barcode')
 
 
+class CartridgePrintListFileView(LoginRequiredMixin, TemplateView):
+    template_name = 'storage/cartridge_print_list_file.html'
+
+    def post(self, request, *args, **kwargs):
+        file_upload = request.FILES['file_upload']
+        
+        return redirect('storage:barcode_list')
+        
+
 class CartridgePrintBarcodeView(LoginRequiredMixin, TemplateView):
     template_name = 'storage/cartridge_print_barcode.html'
 
@@ -68,7 +78,7 @@ class CartridgeLoadPrintListView(LoginRequiredMixin, FormView):
         with open('storage/utils/print_list.csv', "wb+") as destination:
             for chunk in file_upload.chunks():
                 destination.write(chunk)
-        return redirect('storage:barcode_list')
+        return  
 
 
 class CartridgeBarcodeListView(LoginRequiredMixin, TemplateView):
