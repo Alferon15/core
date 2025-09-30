@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Cartridge, Snapshot, Item
-from .forms import SnapshotAddForm, CartidgeLoadPrintListForm
+from .forms import SnapshotAddForm, LoadFileForm
 from django.views.generic import TemplateView, CreateView, ListView, DetailView, View, FormView
 
 from datetime import date
@@ -51,67 +51,35 @@ class CartridgePrintListView(LoginRequiredMixin, TemplateView):
                 if v > 0:
                     article = cartridges.get(number=k).article
                     caption = cartridges.get(number=k).caption
-                    data[k] = {'number':k, 'count':'c'*v, 'article':article, 'caption':caption}
+                    data[k] = {'number':k, 'article':article, 'count':'c'*v, 'caption':caption}
         request.session['data'] = data
         return redirect('storage:print_barcode')
 
 
-class CartridgePrintListFileView(LoginRequiredMixin, TemplateView):
+class CartridgePrintListFileView(LoginRequiredMixin, FormView):
+    form_class = LoadFileForm
     template_name = 'storage/cartridge_print_list_file.html'
 
     def post(self, request, *args, **kwargs):
         file_upload = request.FILES['file_upload']
-        
-        return redirect('storage:barcode_list')
+        f = file_upload.read().decode('utf-8')
+        data = {}
+        temp_str = f.split('\r\n')
+        temp_str.pop(0)
+        for s in temp_str:
+            if s != '':
+                l = s.split(';')
+                if l[2] != '':
+                    v = int(l[2])
+                    if v > 0:
+                        num = l[0].zfill(11)
+                        data[num] = {'number':num, 'article':l[1], 'count':'c'*v, 'caption':l[3]}
+        request.session['data'] = data
+        return redirect('storage:print_barcode')
         
 
 class CartridgePrintBarcodeView(LoginRequiredMixin, TemplateView):
     template_name = 'storage/cartridge_print_barcode.html'
-
-
-class CartridgeLoadPrintListView(LoginRequiredMixin, FormView):
-    form_class = CartidgeLoadPrintListForm
-    template_name = 'storage/cartridge_load_print_list.html'
-    
-    def post(self, request, *args, **kwargs):
-        file_upload = request.FILES['file_upload']
-        with open('storage/utils/print_list.csv', "wb+") as destination:
-            for chunk in file_upload.chunks():
-                destination.write(chunk)
-        return  
-
-
-class CartridgeBarcodeListView(LoginRequiredMixin, TemplateView):
-    template_name = 'storage/cartridge_barcode_list.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        print_list = {}
-        error_list = {}
-        s = open('storage/utils/print_list.csv', encoding='utf-8').read()
-        temp_list = s.split('\n')
-        title_list = temp_list.pop(0)
-        for idx, i in enumerate(temp_list):
-            if idx != 0:
-                if i != '':
-                    a = i.split(';')
-                    a[0] = a[0].zfill(11)
-                    if a[2] == '':
-                        a[2] = 0
-                    else:
-                        try:
-                            a[2] = int(a[2])
-                        except ValueError:
-                            print(f"{a[0]} - {a[2]} - не число!")
-                            error_list[a[0]] = a
-                            a[2] = 0
-                    if a[2] > 0:
-                        a[2] = range(0, a[2])
-                        print_list[a[0]] = a
-        context['title_list'] = title_list
-        context['error_list'] = error_list
-        context['print_list'] = print_list
-        return context
 
 
 class StorageHomeView(TemplateView):

@@ -11,7 +11,7 @@ class SnapshotAddForm(forms.ModelForm):
         fields = ['dt']
 
 
-class CartidgeLoadPrintListForm(forms.Form):
+class LoadFileForm(forms.Form):
     file_upload = forms.FileField(label='Файл')
     
     class Meta:

@@ -29,6 +29,7 @@
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:snapshots_add' %}">Новая инвентаризация</a></li>
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:cartridge_refresh' %}">Обновление списка картриджей</a></li>
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:print_list' %}">Печать штрихкодов</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:print_list_file' %}">Печать штрихкодов (файл)</a></li>
                     </ul>
                     {% if user.is_authenticated %}
                         <p>Hi {{ user.username }}!</p>
