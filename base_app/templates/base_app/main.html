@@ -24,10 +24,10 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'admin:index' %}">Админ</a></li>
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:cartridge_list' %}">Картриджи</a></li>
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:index' %}">Склад</a></li>
+                        {% comment %} <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:index' %}">Склад</a></li> {% endcomment %}
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:snapshots' %}">Инвентаризации</a></li>
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:snapshots_add' %}">Новая инвентаризация</a></li>
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:cartridge_refresh' %}">Обновление списка картриджей</a></li>
+                        {% comment %} <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:cartridge_refresh' %}">Обновление списка картриджей</a></li> {% endcomment %}
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:print_list' %}">Печать штрихкодов</a></li>
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:print_list_file' %}">Печать штрихкодов (файл)</a></li>
                     </ul>

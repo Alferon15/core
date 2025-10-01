@@ -64,7 +64,7 @@ class CartridgePrintListFileView(LoginRequiredMixin, FormView):
         file_upload = request.FILES['file_upload']
         f = file_upload.read().decode('utf-8')
         data = {}
-        temp_str = f.split('\r\n')
+        temp_str = f.split('\n')
         temp_str.pop(0)
         for s in temp_str:
             if s != '':
