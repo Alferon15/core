@@ -3,8 +3,8 @@ from django.urls import reverse
 
 
 class Cartridge(models.Model):
-    number = models.CharField(verbose_name='Номенклатура', primary_key=True, unique=True)
-    article = models.CharField(verbose_name='Артикул')
+    number = models.CharField(verbose_name='Номенклатура', max_length=16, primary_key=True, unique=True)
+    article = models.CharField(verbose_name='Артикул', max_length=128)
     caption = models.TextField(verbose_name='Описание', blank=True, default='')
     priority = models.IntegerField(verbose_name='Приоритет', default=0)
     
@@ -49,4 +49,4 @@ class Item(models.Model):
 
 
 class Printer(models.Model):
-    name = models.CharField(verbose_name='Имя принтера')
+    name = models.CharField(verbose_name='Имя принтера', max_length=128)
