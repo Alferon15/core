@@ -46,7 +46,5 @@ class Item(models.Model):
         return reverse("storage:item_detail", kwargs={"pk": self.pk})
 
 
-
-
 class Printer(models.Model):
     name = models.CharField(verbose_name='Имя принтера', max_length=128)
