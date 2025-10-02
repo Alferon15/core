@@ -1,6 +1,7 @@
 /.venv
 /.vscode
-/base_app/__pycache__
-/core/__pycache__
-/storage/__pycache__
-/users/__pycache__
+db.sqlite3
+/base_app/__pycache__/
+/core/__pycache__/
+/storage/__pycache__/
+/users/__pycache__/
