@@ -4,4 +4,5 @@
 /core/__pycache__
 /storage/__pycache__
 /users/__pycache__
+core/settings.py
 db.sqlite3
