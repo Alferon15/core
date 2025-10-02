@@ -32,7 +32,7 @@
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:print_list_file' %}">Печать штрихкодов (файл)</a></li>
                     </ul>
                     {% if user.is_authenticated %}
-                        <p>Hi {{ user.username }}!</p>
+                        <p>{{ user.username }}</p>
                         <form action="{% url 'users:logout' %}" method="post">
                             {% csrf_token %}
                             <button type="submit">Выход</button>
@@ -52,7 +52,6 @@
                 <div class="text-center text-white">
                     {% block header %}
                         <h1 class="display-4 fw-bolder">Главная страница</h1>
-                        <p class="lead fw-normal text-white-50 mb-0">Еще что-то</p>
                     {% endblock header %}
                 </div>
             </div>
