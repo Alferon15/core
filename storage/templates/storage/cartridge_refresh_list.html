@@ -1,0 +1,25 @@
+{% extends 'base_app/main.html' %}
+
+{% load static %}
+
+{% block title%}
+    Файл для печати
+{% endblock title %}
+
+{% block header %}
+    <div class="text-center text-white">
+        <h1 class="display-4 fw-bolder">Загрузить файл</h1>
+        <p class="lead fw-normal text-white-50 mb-0">Загрузить файл</p>
+    </div>
+{% endblock header %}
+
+{% block body %}
+    <h2>Шаблон</h2>
+    <a href="{% static 'storage\cartridge_list.csv' %}">Скачать шаблон</a>
+    <h2>Обновление списка картриджей</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Обновить список картриджей</button>
+    </form>
+{% endblock body %}
