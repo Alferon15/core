@@ -9,25 +9,6 @@ from datetime import date
 from .utils.utils import do_count
 
 
-class CartridgeRefreshView(LoginRequiredMixin, View):
-    template_name = 'storage/cartridge_refresh_list.html'
-    
-    def get(self, request, *args, **kwargs):
-        cart_file = open('storage/utils/list.csv')
-        cart_str = cart_file.read()
-        cart_file.close()
-        cart_list = cart_str.split('\n')
-        cartridges_db = Cartridge.objects.all()
-        for c in cart_list:
-            if c != '' and len(c) == 3:
-                s = c.split(';')
-                cart = cartridges_db.filter(number=s[0]).exists()
-                if not cart:
-                    cart = Cartridge(number=s[0], article=s[1], caption=s[2])
-                    cart.save()
-        return redirect('storage:cartridge_list')
-
-
 class CartridgeRefreshListView(LoginRequiredMixin, TemplateView, FormView):
     form_class = LoadFileForm
     template_name = 'storage/cartridge_refresh_list.html'
@@ -35,16 +16,18 @@ class CartridgeRefreshListView(LoginRequiredMixin, TemplateView, FormView):
     def post(self, request, *args, **kwargs):
         file_upload = request.FILES['file_upload']
         f = file_upload.read().decode('utf-8')
-        temp_str = f.split('\n')
-        temp_str.pop(0)
-        for s in temp_str:
-            if s != '':
-                l = s.split(';')
-                if l[0] != '':
-                    v = int(l[0])
-                    if v > 0:
-                        num = l[0].zfill(11)
-                        print(num)
+        cart_list = f.split('\n')
+        cart_list.pop(0)
+        # cartridges_db = Cartridge.objects.all()
+        for c in cart_list:
+            if c != '':
+                s = c.split(';')
+                num = s[0].zfill(11)
+                cart = Cartridge.objects.get_or_create(number=num)
+                cart[0].article = s[1]
+                cart[0].caption = s[2]
+                cart[0].full_caption = s[3]
+                cart[0].save()
         return redirect('storage:cartridge_refresh')
 
 

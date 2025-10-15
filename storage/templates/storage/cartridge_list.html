@@ -6,34 +6,35 @@
     <header class="bg-dark py-5">
         <div class="container px-4 px-lg-5 my-5">
             <div class="text-center text-white">
-                <h1 class="display-4 fw-bolder">Главная страница</h1>
-                <p class="lead fw-normal text-white-50 mb-0">Еще что-то</p>
+                <h1 class="display-4 fw-bolder">Список картриджей</h1>
             </div>
         </div>
      </header>
 {% endblock header %}
 
 {% block body %}
-    <h2>Картриджи</h2>
-    
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Номенклатурный номер (из программы 1С)</th>
-                <th scope="col">Артикул (при наличии)</th>
-                <th scope="col">Наименование</th>
-                <th scope="col">Приоритет</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for cartridge in object_list %}
+    <div class="row col-12">
+        <table class="table responsive-table">
+            <thead>
                 <tr>
-                    <td><a class="nav-link active" aria-current="page" href="{% url 'storage:index' %}">{{ cartridge }}</a></td>
-                    <td>{{ cartridge.article }}</td>
-                    <td>{{ cartridge.caption }}</td>
-                    <td>{{ cartridge.priority }}</td>
+                    <th scope="col">Номенклатурный номер (из программы 1С)</th>
+                    <th scope="col">Артикул (при наличии)</th>
+                    <th scope="col">Наименование</th>
+                    <th scope="col">Полное наименование</th>
+                    <th scope="col">Приоритет</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for cartridge in object_list %}
+                    <tr>
+                        <td><a class="nav-link active" aria-current="page" href="{% url 'storage:index' %}">{{ cartridge }}</a></td>
+                        <td>{{ cartridge.article }}</td>
+                        <td>{{ cartridge.caption }}</td>
+                        <td>{{ cartridge.full_caption }}</td>
+                        <td>{{ cartridge.priority }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock body %}

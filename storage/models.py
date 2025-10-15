@@ -5,7 +5,8 @@ from django.urls import reverse
 class Cartridge(models.Model):
     number = models.CharField(verbose_name='Номенклатура', max_length=16, primary_key=True, unique=True)
     article = models.CharField(verbose_name='Артикул', max_length=128)
-    caption = models.TextField(verbose_name='Описание', blank=True, default='')
+    caption = models.TextField(verbose_name='Наименование', blank=True, default='')
+    full_caption = models.TextField(verbose_name='Полное наименование', blank=True, default='')
     priority = models.IntegerField(verbose_name='Приоритет', default=0)
     
     class Meta:
