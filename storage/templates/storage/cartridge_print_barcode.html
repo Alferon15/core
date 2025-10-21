@@ -23,14 +23,17 @@
                             <div class="col-4 mb-0">
                                 <div class="row text-center">
                                     <div class="col-12 border">
-                                        <img class="img-fluid responsive-image mb-0" id="barcode{{ key }}">
+                                        <img class="img-fluid responsive-image mb-0 ml-6 mr-6 px-5" id="barcode{{ key }}">
                                         <div class="mb-0" style="font-size: 0.5rem;">{{ key }}</div>
-                                        <div class="fw-bold mb-0" style="font-size: 0.5rem;">Артикул: {{ value.article }}</div>
-                                        <div class="mb-1 text-break" style="font-size: 0.5rem; height: 1.2cm;">{{ value.caption }}</div>
+                                        <div class="fw-bold mb-0" style="font-size: 0.7rem;">Артикул: {{ value.article }}</div>
+                                        <div class="mb-1 text-break" style="font-size: 0.5rem; height: 1cm;">{{ value.caption }}</div>
                                         <script>
                                             JsBarcode("#barcode{{ key }}", "{{ key }}", {
-                                                width:2,
-                                                height:25,
+                                                margin:7,
+                                                marginLeft:20,
+                                                marginRight:20,
+                                                width:4,
+                                                height:150,
                                                 displayValue: false,
                                             });
                                         </script>
