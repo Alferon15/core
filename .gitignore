@@ -4,5 +4,7 @@
 /core/__pycache__
 /storage/__pycache__
 /users/__pycache__
+/storage/migrations
+/users/migrations
 core/settings.py
 db.sqlite3
