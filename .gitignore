@@ -1,6 +1,7 @@
 /.venv
 /venv
 /.vscode
+/static
 /base_app/__pycache__
 /core/__pycache__
 /storage/__pycache__
