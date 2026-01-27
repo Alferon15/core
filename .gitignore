@@ -7,5 +7,5 @@
 /users/__pycache__
 /storage/migrations
 /users/migrations
-core/settings.py
+settings.py
 db.sqlite3
