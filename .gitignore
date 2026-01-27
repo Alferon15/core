@@ -10,3 +10,4 @@
 /users/migrations
 settings.py
 db.sqlite3
+*.pyc
