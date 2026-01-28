@@ -17,7 +17,7 @@
         <!-- Navigation-->
         {% block navbar %}
         <nav class="navbar navbar-expand-lg">
-            <div class="container px-4 px-lg-5">
+            <div class="container px-4 px-lg-5 align-middle">
                 <a class="navbar-brand" href="{% url 'base_app:index' %}">Главная</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -26,16 +26,16 @@
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:cartridge_list' %}">Картриджи</a></li>
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:cartridge_refresh' %}">Обновление списка картриджей</a></li>
                         {% comment %} <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:index' %}">Склад</a></li> {% endcomment %}
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:snapshots' %}">Инвентаризации</a></li>
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:snapshots_add' %}">Новая инвентаризация</a></li>
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:print_list' %}">Печать штрихкодов</a></li>
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:print_list_file' %}">Печать штрихкодов (файл)</a></li>
+                        {% comment %} <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:snapshots' %}">Инвентаризации</a></li> {% endcomment %}
+                        {% comment %} <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:snapshots_add' %}">Новая инвентаризация</a></li> {% endcomment %}
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:print_list' %}">Печать напрямую</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'storage:print_list_file' %}">Печать из файла</a></li>
                     </ul>
                     {% if user.is_authenticated %}
-                        <p>Hi {{ user.username }}!</p>
+                        {{ user.username }}
                         <form action="{% url 'users:logout' %}" method="post">
                             {% csrf_token %}
-                            <button type="submit">Выход</button>
+                            <button class="btn btn-link" type="submit">Выход</button>
                         </form>
                     {% else %}
                         <p>Вы не вошли</p>

@@ -12,28 +12,51 @@
 {% endblock header %}
 
 {% block body %}
+
+    <style>
+
+        td {
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .table-container {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        
+        .table-fixed-header thead th {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+    </style>
+
     <form method="post" target="_blank">
         {% csrf_token %}
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Номенклатурный номер (из программы 1С)</th>
-                    <th scope="col">Артикул (при наличии)</th>
-                    <th scope="col">Количество</th>
-                    <th scope="col">Наименование</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for c in cartridges %}
+        <div class="table-container mb-2">
+            <table class="table table-hover table-fixed-header mb-0">
+                <thead>
                     <tr>
-                        <td>{{ c.number }}</td>
-                        <td>{{ c.article }}</td>
-                        <td><input id="{{ c.number }}" type="number" name="{{ c.number }}"></td>
-                        <td>{{ c.caption }}</td>
+                        <th width="10%">Номенклатурный номер (из 1С)</th>
+                        <th width="10%">Артикул</th>
+                        <th width="10%">Количество</th>
+                        <th width="70%">Наименование</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <button type="submit">Напечатать штрихкоды</button>
+                </thead>
+                <tbody>
+                    {% for c in cartridges %}
+                        <tr>
+                            <td>{{ c.number }}</td>
+                            <td>{{ c.article }}</td>
+                            <td><input id="{{ c.number }}" type="number" name="{{ c.number }}"></td>
+                            <td>{{ c.caption }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <button class="btn btn-primary" type="submit">Напечатать штрихкоды</button>
     </form>
 {% endblock body %}
