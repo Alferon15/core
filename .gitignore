@@ -2,12 +2,8 @@
 /venv
 /.vscode
 /static
-/base_app/__pycache__
-/core/__pycache__
-/storage/__pycache__
-/users/__pycache__
-/storage/migrations
-/users/migrations
+__pycache__
+migrations
 settings.py
 db.sqlite3
 *.pyc
